@@ -1,3 +1,4 @@
-
-/seatpicker.iml
+*.iml
 /.idea/
+/selector/target/
+/cli/target/

@@ -5,9 +5,9 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
- * Unit test for simple App.
+ * Unit test for simple DefaultSelector.
  */
-public class AppTest 
+public class CliTest
     extends TestCase
 {
     /**
@@ -15,7 +15,7 @@ public class AppTest
      *
      * @param testName name of the test case
      */
-    public AppTest( String testName )
+    public CliTest(String testName )
     {
         super( testName );
     }
@@ -25,13 +25,13 @@ public class AppTest
      */
     public static Test suite()
     {
-        return new TestSuite( AppTest.class );
+        return new TestSuite( CliTest.class );
     }
 
     /**
      * Rigourous Test :-)
      */
-    public void testApp()
+    public void testCli()
     {
         assertTrue( true );
     }
