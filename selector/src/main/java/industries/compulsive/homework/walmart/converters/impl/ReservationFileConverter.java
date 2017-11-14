@@ -31,7 +31,7 @@ public class ReservationFileConverter implements ReservationConverter<File> {
                 line = scanner.nextLine();
                 final Matcher matcher = validReservation.matcher(line);
 
-                if(matcher.matches()) {
+                if(matcher.find()) {
                     reservations.add(new Reservation(
                             matcher.group("reservationNumber"),
                             matcher.group("seatQuantity")));

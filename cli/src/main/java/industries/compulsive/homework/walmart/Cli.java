@@ -4,17 +4,22 @@ import industries.compulsive.homework.walmart.converters.ReservationConverter;
 import industries.compulsive.homework.walmart.converters.TheaterConverter;
 import industries.compulsive.homework.walmart.converters.impl.ReservationFileConverter;
 import industries.compulsive.homework.walmart.converters.impl.TheaterFileConverter;
+import industries.compulsive.homework.walmart.converters.impl.TheaterListConverter;
 import industries.compulsive.homework.walmart.impl.DefaultSelector;
 import industries.compulsive.homework.walmart.types.Reservation;
-import industries.compulsive.homework.walmart.types.SeatAssignment;
+import industries.compulsive.homework.walmart.types.Row;
+import industries.compulsive.homework.walmart.types.Seat;
 import industries.compulsive.homework.walmart.types.TheaterLayout;
 import org.apache.commons.cli.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Cli {
     private final static String INPUT_ARGUMENT = "r";
@@ -107,16 +112,23 @@ public class Cli {
 
     private void run() {
         File theaterFile;
+        TheaterLayout theaterLayout;
 
         if (theaterFilePath == null) {
-            final ClassLoader classLoader = getClass().getClassLoader();
-            theaterFile = new File(classLoader.getResource("default_theater.csv").getFile());
+            List<String> lines = new BufferedReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream
+                    ("default_theater.csv"))).lines().collect(Collectors.toList());
+            final TheaterConverter<List<String>> theaterConverter = new TheaterListConverter();
+            theaterLayout = theaterConverter.convert(lines);
+
         } else {
             theaterFile = new File(theaterFilePath);
+            final TheaterConverter<File> theaterConverter = new TheaterFileConverter();
+            theaterLayout = theaterConverter.convert(theaterFile);
         }
 
-        TheaterConverter<File> theaterConverter = new TheaterFileConverter();
-        TheaterLayout theaterLayout = theaterConverter.convert(theaterFile);
+        for (Row row : theaterLayout.getRows()) {
+           LOGGER.info("Row-{}: {}", row.getRowName(), row.toString());
+        }
 
         ReservationConverter<File> reservationConverter = new ReservationFileConverter();
         List<Reservation> reservations = reservationConverter.convert(new File(reservationFilePath));
@@ -124,6 +136,16 @@ public class Cli {
         reservations.stream().map(Reservation::toString).forEach(LOGGER::info);
 
         DefaultSelector selector = new DefaultSelector();
-        List<SeatAssignment> seatAssignments = selector.assignSeats(theaterLayout, reservations);
+        selector.assignSeats(theaterLayout, reservations);
+
+        for(Reservation reservation:reservations){
+            String reservationDetails = String.format("%s has seats %s", reservation, reservation.getSeatAssignments()
+                    .stream()
+                    .map(Seat::getName).collect(Collectors.joining(", ")));
+
+            LOGGER.info("{}", reservationDetails);
+
+        }
+
     }
 }

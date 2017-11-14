@@ -2,3 +2,4 @@
 /.idea/
 /selector/target/
 /cli/target/
+.DS_Store
