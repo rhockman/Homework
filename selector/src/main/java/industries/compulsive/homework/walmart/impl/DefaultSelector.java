@@ -20,29 +20,41 @@ public class DefaultSelector implements SeatSelector {
         Collections.sort(reservationList, Comparator.comparing(Reservation::getSeatQuantity).reversed());
 
         for (Reservation reservation : reservationList) {
-            SeatingQueryResult maxResult = null;
-            int maxQuality = 0;
-            int currentQuality;
+            int toBeSeated = reservation.getSeatQuantity();
 
-            for (Row row : theaterLayout.getRows()) {
-                List<SeatingQueryResult> seatingQueryResults = row.querySeating(reservation.getSeatQuantity());
-                for (SeatingQueryResult result : seatingQueryResults) {
-                    if (result.getPartyCountSeated() == reservation.getSeatQuantity()) {
-                        currentQuality = result.getSeatedQualitySum();
-                    } else {
-                        //If the entire party doesn't fit, reduce the quality of all seats by one.
-                        currentQuality = result.getSeatedQualitySum() - result.getPartyCountSeated();
-                    }
+            while (toBeSeated > 0) {
+                SeatingQueryResult maxResult = null;
+                int maxQuality = 0;
+                int currentQuality;
 
-                    if (maxQuality < currentQuality) {
-                        maxResult = result;
-                        maxQuality = currentQuality;
+                for (Row row : theaterLayout.getRows()) {
+                    List<SeatingQueryResult> seatingQueryResults = row.querySeating(toBeSeated);
+                    for (SeatingQueryResult result : seatingQueryResults) {
+                        if (result.getPartyCountSeated() <= reservation.getSeatQuantity()) {
+                            //If the entire party doesn't fit, reduce the quality of all seats by one.
+                            currentQuality = result.getSeatedQualitySum() - result.getPartyCountSeated();
+                        } else {
+                            currentQuality = result.getSeatedQualitySum();
+                        }
+
+                        if (maxQuality < currentQuality) {
+                            maxResult = result;
+                            maxQuality = currentQuality;
+                        }
                     }
                 }
-            }
 
-            if (maxResult != null) {
-                maxResult.getRow().assignReservation(maxResult, reservation);
+                if (maxResult != null) {
+                    LOGGER.info("Row {} selected for reservation {} with quality {}", maxResult.getRow().getRowName(),
+                            reservation.getReservationNumber(), maxQuality);
+                    maxResult.getRow().assignReservation(maxResult, reservation);
+                    toBeSeated -= maxResult.getPartyCountSeated();
+                }
+
+                if(maxResult == null || maxQuality == 0){
+                    //No more seats available in the theater
+                    break;
+                }
             }
         }
     }

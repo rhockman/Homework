@@ -3,3 +3,4 @@
 /selector/target/
 /cli/target/
 .DS_Store
+/output.txt

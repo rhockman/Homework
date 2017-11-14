@@ -30,7 +30,7 @@ public class TheaterFileConverter implements TheaterConverter<File> {
                     lineNumber++;
                     line = scanner.nextLine();
 
-                    rows.add(new Row(RowHelper.toAlphabetic(lineNumber),
+                    rows.add(new Row(RowHelper.toAlphabetic(lineNumber - 1),
                             RowHelper.convertValuesToSeats(RowHelper.toAlphabetic(lineNumber-1),
                                     Arrays.stream(line.split(","))
                                             .map(Integer::parseInt)

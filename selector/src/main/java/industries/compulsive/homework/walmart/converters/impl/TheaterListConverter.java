@@ -22,7 +22,7 @@ public class TheaterListConverter implements TheaterConverter<List<String>> {
         for (String theaterRow : theaterRows) {
             lineNumber++;
             rows.add(new Row(RowHelper.toAlphabetic(lineNumber - 1),
-                    RowHelper.convertValuesToSeats(RowHelper.toAlphabetic(lineNumber),
+                    RowHelper.convertValuesToSeats(RowHelper.toAlphabetic(lineNumber-1),
                             Arrays.stream(theaterRow.split(","))
                                     .map(Integer::parseInt)
                                     .collect(Collectors.toList()))));
