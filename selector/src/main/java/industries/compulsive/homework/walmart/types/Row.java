@@ -6,12 +6,23 @@ public class Row {
     private String rowName;
     private Seat[] seats;
     private boolean pristine;
-    private int leftIndex;
-    private int rightIndex;
-    private Map<Integer, List<SeatingQueryResult>> memoizedSeatingQueries;
+    /**
+     * Index of the left-most taken seat in the seats array
+     */
+    int leftIndex;
+
+    /**
+     * Index of the right-most taken seat in the seats array
+     */
+    int rightIndex;
+    Map<Integer, List<SeatingQueryResult>> memoizedSeatingQueries;
 
     public String getRowName() {
         return rowName;
+    }
+
+    Seat[] getSeats() {
+        return this.seats;
     }
 
     public Row(String rowName, List<Seat> seatList) {
@@ -42,7 +53,7 @@ public class Row {
 
                     SeatingQueryResult seatingQueryResult =
                             new SeatingQueryResult(this, reservationSize, qualitySum, candidateSeats, pristineOffset,
-                                    pristineOffset + reservationSize);
+                                    pristineOffset + reservationSize - 1);
 
                     queryResults = Collections.singletonList(seatingQueryResult);
                 } else {
@@ -101,21 +112,23 @@ public class Row {
     }
 
     public void assignReservation(final SeatingQueryResult seatingQueryResult, final Reservation reservation) {
-        //Since we're mutating this row, we need to update our memoization next time we're queried.
-        this.memoizedSeatingQueries = new HashMap<>();
+        if(reservation.getSeatQuantity() > 0) {
+            //Since we're mutating this row, we need to update our memoization next time we're queried.
+            this.memoizedSeatingQueries = new HashMap<>();
 
-        if (pristine) {
-            pristine = false;
-            leftIndex = seatingQueryResult.getLeftBound();
-            rightIndex = seatingQueryResult.getRightBound();
-        } else {
-            if (seatingQueryResult.getLeftBound() < leftIndex) {
+            if (pristine) {
+                pristine = false;
                 leftIndex = seatingQueryResult.getLeftBound();
-            } else {
                 rightIndex = seatingQueryResult.getRightBound();
+            } else {
+                if (seatingQueryResult.getLeftBound() < leftIndex) {
+                    leftIndex = seatingQueryResult.getLeftBound();
+                } else {
+                    rightIndex = seatingQueryResult.getRightBound();
+                }
             }
-        }
 
-        seatingQueryResult.getCandidateSeats().forEach((seat) -> seat.setReservation(reservation));
+            seatingQueryResult.getCandidateSeats().forEach((seat) -> seat.setReservation(reservation));
+        }
     }
 }
