@@ -27,7 +27,7 @@ public class Cli {
     private final String reservationFilePath;
     private final String theaterFilePath;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Throwable {
         Options options = new Options();
 
         options.addOption(
@@ -87,7 +87,7 @@ public class Cli {
         Objects.requireNonNull(reservationFilePath);
     }
 
-    private void run() throws IOException {
+    private void run() throws Throwable {
         File theaterFile;
         TheaterLayout theaterLayout;
 

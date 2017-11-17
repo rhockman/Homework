@@ -30,8 +30,8 @@ public class DefaultSelector implements SeatSelector {
                 for (Row row : theaterLayout.getRows()) {
                     List<SeatingQueryResult> seatingQueryResults = row.querySeating(toBeSeated);
                     for (SeatingQueryResult result : seatingQueryResults) {
-                        if (result.getPartyCountSeated() <= reservation.getSeatQuantity()) {
-                            //If the entire party doesn't fit, reduce the quality of all seats by one.
+                        if (result.getPartyCountSeated() < reservation.getSeatQuantity()) {
+                            //If the entire party doesn't fit, reduce the quality of all seats by one for comparison.
                             currentQuality = result.getSeatedQualitySum() - result.getPartyCountSeated();
                         } else {
                             currentQuality = result.getSeatedQualitySum();
@@ -45,8 +45,6 @@ public class DefaultSelector implements SeatSelector {
                 }
 
                 if (maxResult != null) {
-                    LOGGER.info("Row {} selected for reservation {} with quality {}", maxResult.getRow().getRowName(),
-                            reservation.getReservationNumber(), maxQuality);
                     maxResult.getRow().assignReservation(maxResult, reservation);
                     toBeSeated -= maxResult.getPartyCountSeated();
                 }

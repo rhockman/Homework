@@ -35,6 +35,8 @@ public class Row {
 
     public List<SeatingQueryResult> querySeating(int reservationSize) {
         List<SeatingQueryResult> queryResults;
+        int leftBound;
+        int rightBound;
 
         if (memoizedSeatingQueries.containsKey(reservationSize)) {
             queryResults = memoizedSeatingQueries.get(reservationSize);
@@ -81,29 +83,34 @@ public class Row {
                 Seat currentSeat;
                 final List<Seat> leftSideSeats = new ArrayList<>(seatsToAssign);
 
-                for (int i = 1; i <= seatsToAssign; i++) {
-                    currentSeat = seats[leftIndex - i];
+                for (int i = 0; i < seatsToAssign; i++) {
+                    currentSeat = seats[leftIndex - i - 1];
                     leftSideSeats.add(currentSeat);
                     quality += currentSeat.getQuality();
                 }
 
-                queryResults.add(new SeatingQueryResult(this, seatsToAssign, quality, leftSideSeats, leftIndex -
-                        seatsToAssign, rightIndex));
+                leftBound = leftIndex - seatsToAssign;
+                rightBound = leftIndex - 1;
+
+                queryResults.add(new SeatingQueryResult(this, seatsToAssign, quality, leftSideSeats, leftBound,
+                                rightBound));
 
                 //Determine right result:
                 seatsToAssign = Math.min(reservationSize, seats.length - rightIndex - 1);
                 quality = 0;
                 final List<Seat> rightSideSeats = new ArrayList<>(seatsToAssign);
 
-                for (int i = 1; i <= seatsToAssign; i++) {
-                    currentSeat = seats[rightIndex + i];
+                for (int i = 0; i < seatsToAssign; i++) {
+                    currentSeat = seats[rightIndex + i + 1];
                     rightSideSeats.add(currentSeat);
                     quality += currentSeat.getQuality();
                 }
 
+                leftBound = rightIndex + 1;
+                rightBound = rightIndex + seatsToAssign;
+
                 queryResults.add(new SeatingQueryResult(
-                        this, seatsToAssign, quality, rightSideSeats, leftIndex, rightIndex + seatsToAssign
-                ));
+                        this, seatsToAssign, quality, rightSideSeats, leftBound, rightBound ));
             }
             memoizedSeatingQueries.put(reservationSize, queryResults);
         }
@@ -112,7 +119,7 @@ public class Row {
     }
 
     public void assignReservation(final SeatingQueryResult seatingQueryResult, final Reservation reservation) {
-        if(reservation.getSeatQuantity() > 0) {
+        if (reservation.getSeatQuantity() > 0) {
             //Since we're mutating this row, we need to update our memoization next time we're queried.
             this.memoizedSeatingQueries = new HashMap<>();
 

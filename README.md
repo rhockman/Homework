@@ -8,6 +8,7 @@
 This project uses Apache Maven as its build and packaging system.
 
 1. Install [Maven](https://maven.apache.org/install.html)
+1. Install Git
 1. Get the latest code: `git clone git@bitbucket.org:rhockman/seatpicker.git`
 1. Build: `mvn package`
 
@@ -15,7 +16,7 @@ This project uses Apache Maven as its build and packaging system.
 
 To run with the default parameters use:
 
-`java -jar cli/target/cli-1.0.0-SNAPSHOT-jar-with-dependencies.jar -i inputFilePath`
+`java -jar cli/target/cli-1.0.0-SNAPSHOT-jar-with-dependencies.jar -r inputFilePath`
 
 ### Tests
 
@@ -46,7 +47,13 @@ To run unit tests: `mvn test`
 1. Start researching algorithms.
     1. Find the [Knapsack problem](https://en.wikipedia.org/wiki/Knapsack_problem) Wikipedia Page
     1. Find the [Subset sum problem](https://en.wikipedia.org/wiki/Subset_sum_problem) Wikipedia Page
+1. Realize that I'm not going to have time to implement an ideal solution
+1. Write a greedy algorithm that should provide decent results
+1. Make the input/output exactly what the problem statement requires
+1. Go figure out how to get code coverage reports in maven
+1. Write tests
+1. Fix bugs found during testing
+1. Write javadocs/add comments
+1. Ship it!
 
-
-## FAQs
 

@@ -1,5 +1,6 @@
 package industries.compulsive.homework.walmart.types;
 
+import industries.compulsive.homework.walmart.exceptions.InvalidSeatException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,10 +32,6 @@ public class Seat implements Comparable<Seat> {
     public void setReservation(final Reservation reservation) {
         this.reservation = reservation;
         reservation.assignSeat(this);
-    }
-
-    public boolean isAvailable() {
-        return reservation == null;
     }
 
     public Seat(final String rowName, int column, final int quality) {
@@ -80,6 +77,9 @@ public class Seat implements Comparable<Seat> {
                     result = thisMatcher.group(1).compareTo(otherMatcher.group(1));
                 }
             }
+        } else {
+            throw new InvalidSeatException(String.format("Could not parse one or more of the seats during " +
+                    "Seat::compareTo.  Inputs are '%s' and '%s", getName(), o.getName()));
         }
 
         return result;

@@ -75,11 +75,11 @@ public class RowTest extends TestCase {
     }
 
     @Test public void testPicksTheMiddleSeatFirst() {
-        Row row = buildSmallRow();
+        Row row = buildMediumRow();
         Reservation reservation = new Reservation("R001", 1);
 
         List<SeatingQueryResult> seatingQueryResults = row.querySeating(reservation.getSeatQuantity());
-        assertEquals(5, seatingQueryResults.get(0).getSeatedQualitySum());
+        assertEquals(6, seatingQueryResults.get(0).getSeatedQualitySum());
 
     }
 
@@ -164,13 +164,18 @@ public class RowTest extends TestCase {
         Reservation thirdReservation = new Reservation("R003", 1);
 
         List<SeatingQueryResult> firstResults = row.querySeating(firstReservation.getSeatQuantity());
+        assertEquals("M5", firstResults.get(0).getCandidateSeats().get(0).getName());
+        assertEquals(6, firstResults.get(0).getSeatedQualitySum());
+        assertEquals(4, firstResults.get(0).getLeftBound());
+        assertEquals(4, firstResults.get(0).getRightBound());
         row.assignReservation(firstResults.get(0), firstReservation);
+
 
         List<SeatingQueryResult> secondResults = row.querySeating(secondReservation.getSeatQuantity());
         assertEquals("M4", secondResults.get(0).getCandidateSeats().get(0).getName());
         assertEquals(3, secondResults.get(0).getLeftBound());
         assertEquals(3, secondResults.get(0).getRightBound());
-        assertEquals("M4", secondResults.get(1).getCandidateSeats().get(0).getName());
+        assertEquals("M6", secondResults.get(1).getCandidateSeats().get(0).getName());
         assertEquals(5, secondResults.get(1).getLeftBound());
         assertEquals(5, secondResults.get(1).getRightBound());
 

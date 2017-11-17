@@ -5,7 +5,15 @@ import java.util.List;
 public class SeatingQueryResult {
     private int partyCountSeated;
     private int seatedQualitySum;
+
+    /**
+     * Index of the left-most element in this SeatingQueryResult
+     */
     private int leftBound;
+
+    /**
+     * Index of the right-most element in this SeatingQueryResult
+     */
     private int rightBound;
     private List<Seat> candidateSeats;
     private Row row;
@@ -34,12 +42,6 @@ public class SeatingQueryResult {
 
     public Row getRow() {
         return row;
-    }
-
-    public SeatingQueryResult(int partyCountSeated, int seatedQualitySum, List<Seat> candidateSeats) {
-        this.partyCountSeated = partyCountSeated;
-        this.seatedQualitySum = seatedQualitySum;
-        this.candidateSeats = candidateSeats;
     }
 
     public SeatingQueryResult(Row row, int partyCountSeated, int seatedQualitySum, List<Seat>

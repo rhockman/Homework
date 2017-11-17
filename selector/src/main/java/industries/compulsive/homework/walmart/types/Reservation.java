@@ -29,10 +29,6 @@ public class Reservation {
         seatAssignments = new HashSet<>(seatQuantity);
     }
 
-    public String toString() {
-        return String.format("%s - %d", getReservationNumber(), getSeatQuantity());
-    }
-
     public void assignSeat(Seat seat) {
         seatAssignments.add(seat);
     }
