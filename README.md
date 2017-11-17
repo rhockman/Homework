@@ -57,4 +57,22 @@ To run unit tests: `mvn test`
 1. Overthink this README
 1. Ship it!
 
+## Axioms
+
+1. Each seat in the row gets a value which corresponds to its "quality" from 6 through 2, inclusive.
+1. A customer in a higher quality seat will have higher satisfaction than another customer in a lower quality seat, all else being equal.
+1. Customers in equal quality seats will have equal satisfaction, all ese being equal.
+1. The satisfaction value for a reservation is the sum of seat quality of the seats assigned to that reservation if the reservation fits in a contiguous set of seats in a row.
+1. If the reservation must be split, a negative satisfaction value is included in the sum of the above.  That value is N, where N is the number of seats in the reservation.
+1. The total satisfaction for the assignments is the sum of satisfaction values for each reservation
+1. If the number of reserved seats exceeds the capacity of the theater, as many as possible will be seated
+
+## Commentary
+
+This problem looks to be a flavor of NP-hard.  It can be abstracted into a variation on the Multiple Knapsack problem or a Multi-objective Knapsack.
+
+A greedy algorithm that prioritizes filling high-value seats should yield a satisfactory runtime that also compares favorably with the ideal solution.
+
+During my research, one paper in particular showed what appears to be an analogous problem and corresponding approaches: "Heuristics for cardinality constrained portfolio optimization" by T.-J Chang et al.  Since that paper likely took some grad students moths to figure out and implement, but I've only got a weekend and a few weeknights, I'm going to skip using the methods described in the paper and go with something simpler.
+
 
