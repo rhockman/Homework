@@ -9,7 +9,7 @@ This project uses Apache Maven as its build and packaging system.
 
 1. Install [Maven](https://maven.apache.org/install.html)
 1. Install Git
-1. Get the latest code: `git clone git@bitbucket.org:rhockman/seatpicker.git`
+1. Get the latest code: `git clone git@github.com:rhockman/Homework.git`
 1. Build: `mvn package`
 
 ### Running
