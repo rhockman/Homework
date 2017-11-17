@@ -10,6 +10,7 @@ This project uses Apache Maven as its build and packaging system.
 1. Install [Maven](https://maven.apache.org/install.html)
 1. Install Git
 1. Get the latest code: `git clone git@github.com:rhockman/Homework.git`
+1. `cd Homework` 
 1. Build: `mvn package`
 
 ### Running
@@ -43,7 +44,7 @@ To run unit tests: `mvn test`
     1. Parse Arguments
     1. Set up Classes and Interfaces
     1. Wire everything together leaving the seat assignment as TODO
-        1. Leave room to have multiple algorithms
+        1. Leave room to have multiple algorithms (then later decide to implement only one)
 1. Start researching algorithms.
     1. Find the [Knapsack problem](https://en.wikipedia.org/wiki/Knapsack_problem) Wikipedia Page
     1. Find the [Subset sum problem](https://en.wikipedia.org/wiki/Subset_sum_problem) Wikipedia Page
@@ -53,6 +54,7 @@ To run unit tests: `mvn test`
 1. Go figure out how to get code coverage reports in maven
 1. Write tests
 1. Fix bugs found during testing
+1. Overthink this README
 1. Ship it!
 
 
