@@ -59,9 +59,6 @@ public class Cli {
                 String reservationFilePath = cmd.getOptionValue(INPUT_ARGUMENT);
                 String theaterPath = cmd.getOptionValue(THEATER_ARGUMENT);
 
-                LOGGER.info("reservationFilePath: {}", reservationFilePath);
-                LOGGER.info("theater: {}", theaterPath);
-
                 Cli cli = new Cli(reservationFilePath, theaterPath);
                 cli.run();
             } else {
@@ -116,11 +113,6 @@ public class Cli {
         PrintWriter printWriter = new PrintWriter(fileWriter);
 
         for (Reservation reservation : reservations) {
-            String reservationDetails = String.format("%s has seats %s", reservation, reservation.getSeatAssignments()
-                    .stream()
-                    .map(seat -> String.format("%s(%d)", seat.getName(), seat.getQuality())).collect(Collectors.joining(", ")));
-
-            LOGGER.info("{}", reservationDetails);
             printWriter.printf("%s %s%n",
                     reservation.getReservationNumber(),
                     reservation.getSeatAssignments().stream().map(Seat::getName).collect(Collectors.joining(",")));
