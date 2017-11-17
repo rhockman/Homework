@@ -53,7 +53,6 @@ To run unit tests: `mvn test`
 1. Go figure out how to get code coverage reports in maven
 1. Write tests
 1. Fix bugs found during testing
-1. Write javadocs/add comments
 1. Ship it!
 
 
