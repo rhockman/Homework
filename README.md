@@ -61,10 +61,10 @@ To run unit tests: `mvn test`
 
 1. Each seat in the row gets a value which corresponds to its "quality" from 6 through 2, inclusive.
 1. A customer in a higher quality seat will have higher satisfaction than another customer in a lower quality seat, all else being equal.
-1. Customers in equal quality seats will have equal satisfaction, all ese being equal.
+1. Customers in equal quality seats will have equal satisfaction, all else being equal.
 1. The satisfaction value for a reservation is the sum of seat quality of the seats assigned to that reservation if the reservation fits in a contiguous set of seats in a row.
 1. If the reservation must be split, a negative satisfaction value is included in the sum of the above.  That value is N, where N is the number of seats in the reservation.
-1. The total satisfaction for the assignments is the sum of satisfaction values for each reservation
+1. The total satisfaction for the set of reservations is the sum of satisfaction values for each reservation
 1. If the number of reserved seats exceeds the capacity of the theater, as many as possible will be seated
 
 ## Commentary
