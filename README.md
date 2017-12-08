@@ -4,6 +4,9 @@
 
 **License:** MIT
 
+## Problem Statement
+See the problem_statement.pdf file
+
 ## Building
 This project uses Apache Maven as its build and packaging system.
 
